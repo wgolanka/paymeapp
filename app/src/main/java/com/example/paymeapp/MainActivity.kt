@@ -1,5 +1,6 @@
 package com.example.paymeapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -9,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
 
-    var allDebtors: ArrayList<Debtor> = arrayListOf()
+    companion object {
+        var allDebtors: ArrayList<Debtor> = arrayListOf()
+    }
+
     private var adapter: ArrayAdapter<Debtor>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,12 +35,12 @@ class MainActivity : AppCompatActivity() {
         val debtor2 = Debtor("Julie", 12.12)
 
         addDebtor.setOnClickListener {
-
-            allDebtors.add(debtor1)
-            allDebtors.add(debtor2)
-            adapter!!.notifyDataSetChanged()
-
-            updateDebtSum() //TODO where to put this method so it runs always after adding new debtor?
+            openAddDebtorActivity()
+//            allDebtors.add(debtor1)
+//            allDebtors.add(debtor2)
+//            adapter!!.notifyDataSetChanged()
+//
+//            updateDebtSum() //TODO where to put this method so it runs always after adding new debtor?
         }
         updateDebtSum()
     }
@@ -49,5 +53,10 @@ class MainActivity : AppCompatActivity() {
         }
         //TODO round the sum number, it gets ugly with big numbers
         debtSum.text = "$sum PLN"
+    }
+
+    private fun openAddDebtorActivity() {
+        val intent = Intent(this, AddDebtorActivity::class.java)
+        startActivity(intent)
     }
 }

@@ -4,4 +4,9 @@
     <string name="add_new_debtor_button">Add new</string>
     <string name="debt_sum_text">Debt sum</string>
     <string name="sum_of_debts_desc">sum of debts</string>
+    <string name="button_text_cancel">Cancel</string>
+    <string name="text_add_new_debtor">Add new debtor</string>
+    <string name="edit_text_hint_name">Name</string>
+    <string name="edit_text_PLN">PLN</string>
+    <string name="field_text_hint">420</string>
 </resources>
