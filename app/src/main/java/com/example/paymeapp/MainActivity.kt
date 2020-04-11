@@ -2,11 +2,13 @@ package com.example.paymeapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import java.math.RoundingMode
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val debtors: ListView = findViewById(R.id.listView_debtors)
         val addDebtor: Button = findViewById(R.id.button_add_debtor)
+        val noDebtorsTextView: TextView = findViewById(R.id.textView_no_debtors)
 
         adapter = ArrayAdapter(
             applicationContext,
@@ -30,28 +33,24 @@ class MainActivity : AppCompatActivity() {
         )
 
         debtors.adapter = adapter
-
-        val debtor1 = Debtor("Adam", 2456.12)
-        val debtor2 = Debtor("Julie", 12.12)
-
         addDebtor.setOnClickListener {
-            openAddDebtorActivity()
-//            allDebtors.add(debtor1)
-//            allDebtors.add(debtor2)
-//            adapter!!.notifyDataSetChanged()
-//
-//            updateDebtSum() //TODO where to put this method so it runs always after adding new debtor?
+            openAddDebtorActivity() //TODO I don't notify adapter about changed debtors and it still updated them
         }
-        updateDebtSum()
+
+        if (allDebtors.isEmpty()) { // TODO where to put it so it changes after debtor is added?
+            noDebtorsTextView.visibility = View.VISIBLE
+        } else {
+            noDebtorsTextView.visibility = View.INVISIBLE
+        }
     }
 
-    private fun updateDebtSum() {
+    private fun updateDebtSum() { //TODO where to put this method so it runs always after adding new debtor?
         val debtSum: TextView = findViewById(R.id.num_debt_sum)
         var sum = 0.0
         for (debtor in allDebtors) {
             sum += debtor.owned
         }
-        //TODO round the sum number, it gets ugly with big numbers
+        sum = sum.toBigDecimal().setScale(2, RoundingMode.UP).toDouble() //TODO add tests for this
         debtSum.text = "$sum PLN"
     }
 
