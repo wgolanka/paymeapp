@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pay me App</string>
+    <string name="your_debtors">Your debtors</string>
+    <string name="add_new_debtor_button">Add new</string>
+    <string name="debt_sum_text">Debt sum</string>
+    <string name="sum_of_debts_desc">sum of debts</string>
 </resources>
