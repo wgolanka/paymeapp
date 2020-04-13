@@ -6,7 +6,8 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.math.RoundingMode
+import com.example.paymeapp.util.round
+import kotlinx.android.synthetic.main.activity_add_debtor.*
 
 class AddDebtorActivity : AppCompatActivity() {
 
@@ -20,29 +21,26 @@ class AddDebtorActivity : AppCompatActivity() {
 
     fun addNewDebtor(view: View) {
 
-        val debtorName: EditText = findViewById(R.id.editText_name)
-        val debtorOwned: EditText = findViewById(R.id.editTex_owned)
-        if (debtorName.text.isNullOrBlank() || debtorOwned.text.isNullOrBlank()) {
-            showToastWithText("Please enter debtor name and sum owned")
+        val debtorName: EditText = editText_name
+        val debtorOwed: EditText = editTex_owned
+        if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank()) {
+            showToastWithText("Please enter debtor name and sum owed")
             return
         }
 
         val name: String = debtorName.text.toString()
-        val owned: Double = roundDebt(debtorOwned)
+        val owed: Double = debtorOwed.round()
 
-        if (owned <= 0.0) {
-            showToastWithText("Owned debt must be bigger then 0!")
+        if (owed <= 0.0) {
+            showToastWithText("Owed debt must be bigger then 0!")
             return
         }
 
-        val debtor = Debtor(name, owned)
+        val debtor = Debtor(name, owed)
         MainActivity.allDebtors.add(debtor)
 
         finish()
     }
-
-    private fun roundDebt(debtorOwned: EditText) =
-        debtorOwned.text.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
 
     private fun showToastWithText(text: String) {
         Toast.makeText(
@@ -54,9 +52,9 @@ class AddDebtorActivity : AppCompatActivity() {
 
     fun cancelAddNewDebtor(view: View) {
         val debtorName: EditText = findViewById(R.id.editText_name)
-        val debtorOwned: EditText = findViewById(R.id.editTex_owned)
+        val debtorOwed: EditText = findViewById(R.id.editTex_owned)
 
-        if (debtorName.text.isNullOrBlank() && debtorOwned.text.isNullOrBlank()) {
+        if (debtorName.text.isNullOrBlank() && debtorOwed.text.isNullOrBlank()) {
             finish()
         } else {
             showCancelDialog()
@@ -65,6 +63,7 @@ class AddDebtorActivity : AppCompatActivity() {
 
     private fun showCancelDialog() {
         val builder = AlertDialog.Builder(this)
+
         builder.setTitle("Are you sure to cancel?")
         builder.setMessage("This debtor will NOT be saved")
 

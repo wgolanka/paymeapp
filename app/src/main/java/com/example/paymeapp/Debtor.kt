@@ -1,8 +1,8 @@
 package com.example.paymeapp
 
-data class Debtor(val name: String, var owned: Double) {
+data class Debtor(val name: String, var owed: Double) {
 
     override fun toString(): String {
-        return "$name owns you $owned PLN"
+        return "$name owe you $owed PLN"
     }
 }

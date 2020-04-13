@@ -8,12 +8,27 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import java.math.RoundingMode
+
+import com.example.paymeapp.util.round
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     companion object {
         var allDebtors: ArrayList<Debtor> = arrayListOf()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val noDebtorsTextView: TextView = textView_no_debtors
+        noDebtorsTextView.visibility = if (allDebtors.isEmpty()) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
+
+        updateDebtSum()
     }
 
     private var adapter: ArrayAdapter<Debtor>? = null
@@ -22,9 +37,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val debtors: ListView = findViewById(R.id.listView_debtors)
-        val addDebtor: Button = findViewById(R.id.button_add_debtor)
-        val noDebtorsTextView: TextView = findViewById(R.id.textView_no_debtors)
+        val debtors: ListView = listView_debtors
+        val addDebtor: Button = button_add_debtor
 
         adapter = ArrayAdapter(
             applicationContext,
@@ -32,26 +46,16 @@ class MainActivity : AppCompatActivity() {
             allDebtors
         )
 
-        debtors.adapter = adapter
+        debtors.adapter = adapter!!
         addDebtor.setOnClickListener {
-            openAddDebtorActivity() //TODO I don't notify adapter about changed debtors and it still updated them
-        }
-
-        if (allDebtors.isEmpty()) { // TODO where to put it so it changes after debtor is added?
-            noDebtorsTextView.visibility = View.VISIBLE
-        } else {
-            noDebtorsTextView.visibility = View.INVISIBLE
+            openAddDebtorActivity()
         }
     }
 
-    private fun updateDebtSum() { //TODO where to put this method so it runs always after adding new debtor?
-        val debtSum: TextView = findViewById(R.id.num_debt_sum)
-        var sum = 0.0
-        for (debtor in allDebtors) {
-            sum += debtor.owned
-        }
-        sum = sum.toBigDecimal().setScale(2, RoundingMode.UP).toDouble() //TODO add tests for this
-        debtSum.text = "$sum PLN"
+    private fun updateDebtSum() {
+        val debtSum: TextView = num_debt_sum
+        val sum = allDebtors.sumByDouble { it.owed }
+        debtSum.text = "${sum.round()} PLN" //TODO add tests for this
     }
 
     private fun openAddDebtorActivity() {
