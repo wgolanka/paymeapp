@@ -9,4 +9,10 @@
     <string name="edit_text_hint_name">Name</string>
     <string name="edit_text_PLN">PLN</string>
     <string name="field_text_hint">420</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel_question">Are you sure to cancel?</string>
+    <string name="cancel_info">This debtor will NOT be saved</string>
+    <string name="enter_debtor_info">Please enter debtor name and sum owed</string>
+    <string name="debt_too_small_info">Owed debt must be bigger then 0!</string>
 </resources>

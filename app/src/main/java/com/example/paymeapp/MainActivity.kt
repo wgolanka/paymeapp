@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
     private fun updateDebtSum() {
         val debtSum: TextView = num_debt_sum
         val sum = allDebtors.sumByDouble { it.owed }
-        debtSum.text = "${sum.round()} PLN" //TODO add tests for this
+        debtSum.text = "${sum.round()} PLN" //TODO add tests for this and extract resource
     }
 
     private fun openAddDebtorActivity() {

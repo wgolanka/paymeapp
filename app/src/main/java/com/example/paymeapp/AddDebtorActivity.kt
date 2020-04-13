@@ -6,13 +6,13 @@ import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.paymeapp.R.string.*
 import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_add_debtor.*
 
 class AddDebtorActivity : AppCompatActivity() {
 
-    private val yes = "Yes"
-    private val no = "No"
+    private val minDebtValue = 0.1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,15 +24,15 @@ class AddDebtorActivity : AppCompatActivity() {
         val debtorName: EditText = editText_name
         val debtorOwed: EditText = editTex_owned
         if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank()) {
-            showToastWithText("Please enter debtor name and sum owed")
+            showToastWith(getString(enter_debtor_info))
             return
         }
 
         val name: String = debtorName.text.toString()
         val owed: Double = debtorOwed.round()
 
-        if (owed <= 0.0) {
-            showToastWithText("Owed debt must be bigger then 0!")
+        if (owed < minDebtValue) {
+            showToastWith(getString(debt_too_small_info))
             return
         }
 
@@ -42,7 +42,7 @@ class AddDebtorActivity : AppCompatActivity() {
         finish()
     }
 
-    private fun showToastWithText(text: String) {
+    private fun showToastWith(text: String) {
         Toast.makeText(
             applicationContext,
             text,
@@ -51,8 +51,8 @@ class AddDebtorActivity : AppCompatActivity() {
     }
 
     fun cancelAddNewDebtor(view: View) {
-        val debtorName: EditText = findViewById(R.id.editText_name)
-        val debtorOwed: EditText = findViewById(R.id.editTex_owned)
+        val debtorName: EditText = editText_name
+        val debtorOwed: EditText = editTex_owned
 
         if (debtorName.text.isNullOrBlank() && debtorOwed.text.isNullOrBlank()) {
             finish()
@@ -64,23 +64,25 @@ class AddDebtorActivity : AppCompatActivity() {
     private fun showCancelDialog() {
         val builder = AlertDialog.Builder(this)
 
-        builder.setTitle("Are you sure to cancel?")
-        builder.setMessage("This debtor will NOT be saved")
+        builder.apply {
+            setTitle(getString(cancel_question))
+            setMessage(getString(cancel_info))
 
-        builder.setPositiveButton(yes) { _, _ ->
-            Toast.makeText(
-                applicationContext,
-                yes, Toast.LENGTH_SHORT
-            ).show()
+            setPositiveButton(yes) { _, _ ->
+                Toast.makeText(
+                    applicationContext,
+                    yes, Toast.LENGTH_SHORT
+                ).show()
 
-            finish()
-        }
+                finish()
+            }
 
-        builder.setNegativeButton(no) { _, _ ->
-            Toast.makeText(
-                applicationContext,
-                no, Toast.LENGTH_SHORT
-            ).show()
+            setNegativeButton(no) { _, _ ->
+                Toast.makeText(
+                    applicationContext,
+                    no, Toast.LENGTH_SHORT
+                ).show()
+            }
         }
 
         builder.show()
