@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        val noDebtorsTextView: TextView = textView_no_debtors
+        val noDebtorsTextView: TextView = textViewNoDebtors
         noDebtorsTextView.visibility = if (allDebtors.isEmpty()) {
             View.VISIBLE
         } else {
@@ -38,8 +38,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val debtors: ListView = listView_debtors
-        val addDebtor: Button = button_add_debtor
+        val debtors: ListView = listViewDebtors
+        val addDebtor: Button = buttonAddDebtor
 
         adapter = ArrayAdapter(
             applicationContext,
@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateDebtSum() {
-        val debtSum: TextView = num_debt_sum
+        val debtSum: TextView = numDebtSum
         val sum = allDebtors.sumByDouble { it.owed }
 
         debtSum.text = String.format(getString(debtWithPln), sum.round().toString())

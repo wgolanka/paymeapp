@@ -16,4 +16,5 @@
     <string name="enter_debtor_info">Please enter debtor name and sum owed</string>
     <string name="debt_too_small_info">Owed debt must be bigger then 0!</string>
     <string name="debtWithPln">%s PLN</string>
+    <string name="textHoorayNoDebtors">Hooray! No debtors:)</string>
 </resources>

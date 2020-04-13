@@ -21,8 +21,8 @@ class AddDebtorActivity : AppCompatActivity() {
 
     fun addNewDebtor(view: View) {
 
-        val debtorName: EditText = editText_name
-        val debtorOwed: EditText = editTex_owned
+        val debtorName: EditText = editTextName
+        val debtorOwed: EditText = editTextOwed
         if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank()) {
             showToastWith(getString(enter_debtor_info))
             return
@@ -51,8 +51,8 @@ class AddDebtorActivity : AppCompatActivity() {
     }
 
     fun cancelAddNewDebtor(view: View) {
-        val debtorName: EditText = editText_name
-        val debtorOwed: EditText = editTex_owned
+        val debtorName: EditText = editTextName
+        val debtorOwed: EditText = editTextOwed
 
         if (debtorName.text.isNullOrBlank() && debtorOwed.text.isNullOrBlank()) {
             finish()
