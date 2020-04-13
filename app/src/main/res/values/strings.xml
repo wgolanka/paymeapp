@@ -15,4 +15,5 @@
     <string name="cancel_info">This debtor will NOT be saved</string>
     <string name="enter_debtor_info">Please enter debtor name and sum owed</string>
     <string name="debt_too_small_info">Owed debt must be bigger then 0!</string>
+    <string name="debtWithPln">%s PLN</string>
 </resources>

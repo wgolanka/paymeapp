@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.paymeapp.R.string.debtWithPln
 
 import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_main.*
@@ -55,7 +56,8 @@ class MainActivity : AppCompatActivity() {
     private fun updateDebtSum() {
         val debtSum: TextView = num_debt_sum
         val sum = allDebtors.sumByDouble { it.owed }
-        debtSum.text = "${sum.round()} PLN" //TODO add tests for this and extract resource
+
+        debtSum.text = String.format(getString(debtWithPln), sum.round().toString())
     }
 
     private fun openAddDebtorActivity() {

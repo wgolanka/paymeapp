@@ -9,5 +9,5 @@ fun Double.round() =
 fun EditText.round() =
     round(this.text)
 
-fun <T> round(obj : T) :Double =
+fun <T> round(obj : T) :Double = //TODO add tests for round
     obj.toString().toBigDecimal().setScale(2, RoundingMode.UP).toDouble()
