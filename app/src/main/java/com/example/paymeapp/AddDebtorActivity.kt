@@ -50,7 +50,7 @@ class AddDebtorActivity : AppCompatActivity() {
         ).show()
     }
 
-    fun cancelAddNewDebtor(view: View) {
+    fun cancelAddNewDebtor(view: View) { //TODO why app craches when not used view is removed
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
 
