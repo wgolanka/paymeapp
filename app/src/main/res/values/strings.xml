@@ -17,4 +17,9 @@
     <string name="debt_too_small_info">Owed debt must be bigger then 0!</string>
     <string name="debtWithPln">%s PLN</string>
     <string name="textHoorayNoDebtors">Hooray! No debtors:)</string>
+    <string name="remove_debt_from">Remove debt from %s</string>
+    <string name="debt_cancel_inside_msg">%1$s ows you %2$s PLN, do you want to remove the debt?</string>
+    <string name="remove_debt_btn_msg">Remove debt</string>
+    <string name="debt_removed">Debt removed</string>
+    <string name="Cancel_msg">Cancel</string>
 </resources>
