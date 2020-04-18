@@ -7,12 +7,77 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/TextYourDebtors"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:text="@string/your_debtors"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.084" />
+
+    <ListView
+        android:id="@+id/listViewDebtors"
+        android:layout_width="349dp"
+        android:layout_height="415dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors" />
+
+    <Button
+        android:id="@+id/buttonAddDebtor"
+        android:layout_width="91dp"
+        android:layout_height="58dp"
+        android:text="@string/add_new_debtor_button"
+        app:layout_constraintBottom_toTopOf="@+id/listViewDebtors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TextYourDebtors"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/TextDebtSum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/debt_sum_text"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewDebtors"
+        app:layout_constraintVertical_bias="0.493" />
+
+    <EditText
+        android:id="@+id/numDebtSum"
+        android:layout_width="135dp"
+        android:layout_height="45dp"
+        android:autofillHints=""
+        android:clickable="false"
+        android:cursorVisible="false"
+        android:ems="10"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="@string/sum_of_debts_desc"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/TextDebtSum"
+        app:layout_constraintTop_toBottomOf="@+id/listViewDebtors" />
+
+    <TextView
+        android:id="@+id/textViewNoDebtors"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/textHoorayNoDebtors"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/listViewDebtors"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAddDebtor"
+        app:layout_constraintHorizontal_bias="0.166"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors"
+        app:layout_constraintVertical_bias="0.523" />
 </androidx.constraintlayout.widget.ConstraintLayout>

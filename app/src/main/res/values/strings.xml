@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">Pay me App</string>
+    <string name="your_debtors">Your debtors</string>
+    <string name="add_new_debtor_button">Add new</string>
+    <string name="debt_sum_text">Debt sum</string>
+    <string name="sum_of_debts_desc">sum of debts</string>
+    <string name="button_text_cancel">Cancel</string>
+    <string name="text_add_new_debtor">Add new debtor</string>
+    <string name="edit_text_hint_name">Name</string>
+    <string name="edit_text_PLN">PLN</string>
+    <string name="field_text_hint">420</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="cancel_question">Are you sure to cancel?</string>
+    <string name="cancel_info">This debtor will NOT be saved</string>
+    <string name="enter_debtor_info">Please enter debtor name and sum owed</string>
+    <string name="debt_too_small_info">Owed debt must be bigger then 0!</string>
+    <string name="debtWithPln">%s PLN</string>
+    <string name="textHoorayNoDebtors">Hooray! No debtors:)</string>
 </resources>
