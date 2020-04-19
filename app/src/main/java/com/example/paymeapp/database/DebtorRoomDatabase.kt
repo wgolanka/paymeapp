@@ -8,7 +8,7 @@ import com.example.paymeapp.Debtor
 
 // Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Debtor::class], version = 1, exportSchema = false)
-public abstract class WordRoomDatabase : RoomDatabase() {
+public abstract class DebtorRoomDatabase : RoomDatabase() {
 
     abstract fun debtorDao(): DebtorDao
 
@@ -16,9 +16,9 @@ public abstract class WordRoomDatabase : RoomDatabase() {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: WordRoomDatabase? = null
+        private var INSTANCE: DebtorRoomDatabase? = null
 
-        fun getDatabase(context: Context): WordRoomDatabase {
+        fun getDatabase(context: Context): DebtorRoomDatabase {
             val tempInstance = INSTANCE
             if (tempInstance != null) {
                 return tempInstance
@@ -26,7 +26,7 @@ public abstract class WordRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 val instance = databaseBuilder(
                     context.applicationContext,
-                    WordRoomDatabase::class.java,
+                    DebtorRoomDatabase::class.java,
                     "debtor_database"
                 ).build()
                 INSTANCE = instance
