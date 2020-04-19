@@ -8,15 +8,27 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.paymeapp.R.string.*
 import com.example.paymeapp.util.round
-import kotlinx.android.synthetic.main.activity_add_debtor.*
+import kotlinx.android.synthetic.main.activity_add_edit_debtor.*
 
-class AddDebtorActivity : AppCompatActivity() {
+class AddEditDebtorActivity : AppCompatActivity() {
 
     private val minDebtValue = 0.1
+    private var addEditPresenter: AddEditPresenter = AddEditPresenter()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_debtor)
+        setContentView(R.layout.activity_add_edit_debtor)
+
+        addEditPresenter =
+            intent.getSerializableExtra(AddEditPresenter.className) as AddEditPresenter
+
+        if (!addEditPresenter.isNewDebtor) {
+            editTextName.setText(addEditPresenter.debtorName)
+            editTextOwed.setText(addEditPresenter.debtorOwed.toString())
+        }
+
+        textViewAddNewDebtor.text = addEditPresenter.title
+        buttonAdd.text = addEditPresenter.buttonText
     }
 
     fun addNewDebtor(view: View) {
@@ -36,10 +48,23 @@ class AddDebtorActivity : AppCompatActivity() {
             return
         }
 
-        val debtor = Debtor(name, owed)
-        MainActivity.allDebtors.add(debtor)
+        val newDebtor = Debtor(name, owed)
+        if (addEditPresenter.isNewDebtor) {
+            MainActivity.allDebtors.add(newDebtor)
+        } else {
+            editExistingDebtor(newDebtor)
+        }
 
         finish()
+    }
+
+    private fun editExistingDebtor(newDebtor: Debtor) {
+        if (newDebtor.name != addEditPresenter.debtorName || newDebtor.owed != addEditPresenter.debtorOwed) {
+            val debtor =
+                MainActivity.allDebtors.find { debtor -> debtor.name == addEditPresenter.debtorName }
+            MainActivity.allDebtors.remove(debtor)
+            MainActivity.allDebtors.add(newDebtor)
+        }
     }
 
     private fun showToastWith(text: String) {

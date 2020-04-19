@@ -12,31 +12,17 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val doubleClickTime: Long = 300
+
+    private var adapter: ArrayAdapter<Debtor>? = null
+
     companion object {
         var allDebtors: ArrayList<Debtor> = arrayListOf()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        val noDebtorsTextView: TextView = textViewNoDebtors
-        noDebtorsTextView.visibility = if (allDebtors.isEmpty()) {
-            View.VISIBLE
-        } else {
-            View.INVISIBLE
-        }
-
-        updateDebtSum()
-    }
-
-    private var adapter: ArrayAdapter<Debtor>? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        val debtors: ListView = listViewDebtors
-        val addDebtor: Button = buttonAddDebtor
 
         adapter = ArrayAdapter(
             applicationContext,
@@ -44,19 +30,23 @@ class MainActivity : AppCompatActivity() {
             allDebtors
         )
 
-        allDebtors.add(Debtor("First", 20.0)) //TODO temporary
-        allDebtors.add(Debtor("Second", 30.0))
-        adapter?.notifyDataSetChanged()
-
+        val debtors: ListView = listViewDebtors
         debtors.adapter = adapter!!
+
+        val addDebtor: Button = buttonAddDebtor
         addDebtor.setOnClickListener {
             openAddDebtorActivity()
         }
 
-        listViewDebtors.onItemLongClickListener =
-            AdapterView.OnItemLongClickListener { parent, view, position, id ->
-                debtRemission(allDebtors[position])
-            }
+        listViewDebtors.onItemLongClickListener = onItemLongClickAction()
+        listViewDebtors.onItemClickListener = onDoubleTapAction()
+
+        showNoDebtorsMsgIfNoDebtors()
+
+        allDebtors.add(Debtor("First", 20.0)) //TODO temporary
+        allDebtors.add(Debtor("Second", 30.0))
+        adapter?.notifyDataSetChanged()
+        updateDebtSum()
     }
 
     private fun updateDebtSum() {
@@ -66,12 +56,65 @@ class MainActivity : AppCompatActivity() {
         debtSum.text = String.format(getString(debtWithPln), sum.round().toString())
     }
 
+    private fun onItemLongClickAction(): AdapterView.OnItemLongClickListener {
+        return AdapterView.OnItemLongClickListener { parent, view, position, id ->
+            cancelDebtFrom(allDebtors[position])
+        }
+    }
+
+    private fun onDoubleTapAction(): AdapterView.OnItemClickListener {
+        var lastClickTime: Long = 0
+        return AdapterView.OnItemClickListener { parent, view, position, id ->
+            val clickTime = System.currentTimeMillis()
+            if (clickTime - lastClickTime < doubleClickTime) {
+                val clickedDebtor = allDebtors[position]
+                openEditDebtorActivity(clickedDebtor.name, clickedDebtor.owed)
+            }
+            lastClickTime = clickTime
+        }
+    }
+
+    private fun showNoDebtorsMsgIfNoDebtors() {
+        val noDebtorsTextView: TextView = textViewNoDebtors
+        noDebtorsTextView.visibility = if (allDebtors.isEmpty()) {
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        showNoDebtorsMsgIfNoDebtors()
+        adapter?.notifyDataSetChanged()
+        updateDebtSum()
+    }
+
     private fun openAddDebtorActivity() {
-        val intent = Intent(this, AddDebtorActivity::class.java)
+        val intent = Intent(this, AddEditDebtorActivity::class.java)
+        val addDebtorPresenter = AddEditPresenter(
+            getString(text_add_new_debtor),
+            true, getString(add_new_debtor_button)
+        )
+        intent.putExtra(AddEditPresenter.className, addDebtorPresenter)
         startActivity(intent)
     }
 
-    private fun debtRemission(debtor: Debtor): Boolean {
+    private fun openEditDebtorActivity(debtorName: String, debtorOwed: Double) {
+        val intent = Intent(this, AddEditDebtorActivity::class.java)
+
+        val editDebtorPresenter = AddEditPresenter(
+            getString(text_edit_debtor),
+            false, getString(Save_msg),
+            debtorName, debtorOwed
+        )
+        intent.putExtra(AddEditPresenter.className, editDebtorPresenter)
+
+        startActivity(intent)
+    }
+
+    private fun cancelDebtFrom(debtor: Debtor): Boolean {
         val builder = AlertDialog.Builder(this)
 
         builder.apply {
@@ -85,32 +128,31 @@ class MainActivity : AppCompatActivity() {
             )
 
             setPositiveButton(getString(remove_debt_btn_msg)) { _, _ ->
-                Toast.makeText(
-                    applicationContext,
-                    getString(debt_removed),
-                    Toast.LENGTH_SHORT
-                ).show()
-
+                toastWith(getString(debt_removed))
                 removeDebtFrom(debtor)
             }
 
             setNegativeButton(getString(Cancel_msg)) { _, _ ->
-                Toast.makeText(
-                    applicationContext,
-                    getString(Cancel_msg), Toast.LENGTH_SHORT
-                ).show()
+                toastWith(getString(Cancel_msg))
             }
         }
 
         builder.show()
-
         return true
+    }
+
+    private fun toastWith(text: String) {
+        Toast.makeText(
+            applicationContext,
+            text,
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun removeDebtFrom(debtor: Debtor) {
         allDebtors.remove(debtor)
         adapter?.notifyDataSetChanged()
         updateDebtSum()
-        //TODo when debtors size = 0, show no debtors msg
+        showNoDebtorsMsgIfNoDebtors()
     }
 }
