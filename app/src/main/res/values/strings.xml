@@ -6,6 +6,7 @@
     <string name="sum_of_debts_desc">sum of debts</string>
     <string name="button_text_cancel">Cancel</string>
     <string name="text_add_new_debtor">Add new debtor</string>
+    <string name="text_edit_debtor">Edit debtor</string>
     <string name="edit_text_hint_name">Name</string>
     <string name="edit_text_PLN">PLN</string>
     <string name="field_text_hint">420</string>
@@ -22,4 +23,6 @@
     <string name="remove_debt_btn_msg">Remove debt</string>
     <string name="debt_removed">Debt removed</string>
     <string name="Cancel_msg">Cancel</string>
+    <string name="Save_msg">Save</string>
+    <string name="Saved_msg">Saved</string>
 </resources>
