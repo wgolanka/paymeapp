@@ -31,6 +31,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
     }
 
     fun addNewDebtor(view: View) {
+        //TODO do not add if already exist
 
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
