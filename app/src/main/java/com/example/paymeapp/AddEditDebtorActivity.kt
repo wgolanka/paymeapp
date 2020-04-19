@@ -19,8 +19,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_edit_debtor)
 
-        addEditPresenter =
-            intent.getSerializableExtra(AddEditPresenter.className) as AddEditPresenter
+        addEditPresenter = intent.getSerializableExtra(AddEditPresenter.className) as AddEditPresenter
 
         if (!addEditPresenter.isNewDebtor) {
             editTextName.setText(addEditPresenter.debtorName)
@@ -36,7 +35,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
         if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank()) {
-            showToastWith(getString(enter_debtor_info))
+            toastWith(getString(enter_debtor_info))
             return
         }
 
@@ -44,7 +43,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
         val owed: Double = debtorOwed.round()
 
         if (owed < minDebtValue) {
-            showToastWith(getString(debt_too_small_info))
+            toastWith(getString(debt_too_small_info))
             return
         }
 
@@ -67,7 +66,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
         }
     }
 
-    private fun showToastWith(text: String) {
+    private fun toastWith(text: String) {
         Toast.makeText(
             applicationContext,
             text,
@@ -94,19 +93,12 @@ class AddEditDebtorActivity : AppCompatActivity() {
             setMessage(getString(cancel_info))
 
             setPositiveButton(yes) { _, _ ->
-                Toast.makeText(
-                    applicationContext,
-                    yes, Toast.LENGTH_SHORT
-                ).show()
-
+                toastWith(getString(yes))
                 finish()
             }
 
             setNegativeButton(no) { _, _ ->
-                Toast.makeText(
-                    applicationContext,
-                    no, Toast.LENGTH_SHORT
-                ).show()
+                toastWith(getString(no))
             }
         }
 

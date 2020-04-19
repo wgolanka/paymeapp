@@ -34,9 +34,7 @@ class MainActivity : AppCompatActivity() {
         debtors.adapter = adapter!!
 
         val addDebtor: Button = buttonAddDebtor
-        addDebtor.setOnClickListener {
-            openAddDebtorActivity()
-        }
+        addDebtor.setOnClickListener { addDebtor() }
 
         listViewDebtors.onItemLongClickListener = onItemLongClickAction()
         listViewDebtors.onItemClickListener = onDoubleTapAction()
@@ -68,7 +66,7 @@ class MainActivity : AppCompatActivity() {
             val clickTime = System.currentTimeMillis()
             if (clickTime - lastClickTime < doubleClickTime) {
                 val clickedDebtor = allDebtors[position]
-                openEditDebtorActivity(clickedDebtor.name, clickedDebtor.owed)
+                editDebtor(clickedDebtor.name, clickedDebtor.owed)
             }
             lastClickTime = clickTime
         }
@@ -91,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         updateDebtSum()
     }
 
-    private fun openAddDebtorActivity() {
+    private fun addDebtor() {
         val intent = Intent(this, AddEditDebtorActivity::class.java)
         val addDebtorPresenter = AddEditPresenter(
             getString(text_add_new_debtor),
@@ -101,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    private fun openEditDebtorActivity(debtorName: String, debtorOwed: Double) {
+    private fun editDebtor(debtorName: String, debtorOwed: Double) {
         val intent = Intent(this, AddEditDebtorActivity::class.java)
 
         val editDebtorPresenter = AddEditPresenter(
