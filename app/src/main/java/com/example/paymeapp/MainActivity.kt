@@ -19,8 +19,6 @@ class MainActivity : AppCompatActivity() {
 
     private val doubleClickTime: Long = 300
 
-    private var adapter: ArrayAdapter<Debtor>? = null
-
     private lateinit var debtViewModel: DebtorViewModel
 
     private var allDebtors: ArrayList<Debtor> = arrayListOf()
@@ -38,7 +36,10 @@ class MainActivity : AppCompatActivity() {
         debtViewModel = ViewModelProvider(this).get(DebtorViewModel::class.java)
 
         debtViewModel.allDebtors.observe(this, Observer { debtors ->
-            debtors?.let { adapter.setDebtors(it) }
+            debtors?.let {
+                adapter.setDebtors(it)
+                updateDebtSum()
+            }
         })
 
         val addDebtor: Button = buttonAddDebtor
@@ -52,7 +53,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateDebtSum() {
         val debtSum: TextView = numDebtSum
-        val sum = allDebtors.sumByDouble { it.owed }
+        val sum = debtViewModel.getAll().sumByDouble { it.owed }
 
         debtSum.text = String.format(getString(debtWithPln), sum.round().toString())
     }
@@ -82,14 +83,6 @@ class MainActivity : AppCompatActivity() {
         } else {
             View.INVISIBLE
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-//        showNoDebtorsMsgIfNoDebtors()
-//        adapter?.notifyDataSetChanged()
-//        updateDebtSum()
     }
 
     private fun addDebtor() {
@@ -150,10 +143,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun removeDebtFrom(debtor: Debtor) {
-        allDebtors.remove(debtor)
-        adapter?.notifyDataSetChanged()
-        updateDebtSum()
-        showNoDebtorsMsgIfNoDebtors()
+//        debtViewModel.delete(debtor) //TODO
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
