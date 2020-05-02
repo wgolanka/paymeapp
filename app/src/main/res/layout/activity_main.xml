@@ -19,24 +19,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.084" />
 
-    <ListView
-        android:id="@+id/listViewDebtors"
-        android:layout_width="349dp"
-        android:layout_height="415dp"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors" />
-
     <Button
         android:id="@+id/buttonAddDebtor"
         android:layout_width="91dp"
         android:layout_height="58dp"
+        android:layout_marginTop="52dp"
         android:text="@string/add_new_debtor_button"
-        app:layout_constraintBottom_toTopOf="@+id/listViewDebtors"
+        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.516"
         app:layout_constraintStart_toEndOf="@+id/TextYourDebtors"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/TextDebtSum"
@@ -48,8 +42,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.162"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/listViewDebtors"
-        app:layout_constraintVertical_bias="0.493" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     <EditText
         android:id="@+id/numDebtSum"
@@ -66,7 +59,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/TextDebtSum"
-        app:layout_constraintTop_toBottomOf="@+id/listViewDebtors" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
 
     <TextView
         android:id="@+id/textViewNoDebtors"
@@ -74,10 +67,18 @@
         android:layout_height="wrap_content"
         android:text="@string/textHoorayNoDebtors"
         android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/listViewDebtors"
         app:layout_constraintEnd_toStartOf="@+id/buttonAddDebtor"
         app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors"
-        app:layout_constraintVertical_bias="0.523" />
+        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="348dp"
+        android:layout_height="437dp"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors" />
 </androidx.constraintlayout.widget.ConstraintLayout>
