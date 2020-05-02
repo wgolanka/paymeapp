@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.paymeapp.R.string.*
 import com.example.paymeapp.util.round
 import com.example.paymeapp.viewmodel.DebtorViewModel
@@ -20,37 +23,31 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var debtViewModel: DebtorViewModel
 
-    companion object {
-        var allDebtors: ArrayList<Debtor> = arrayListOf()
-    }
+    private var allDebtors: ArrayList<Debtor> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+        val adapter = DebtorListAdapter(this)
+
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
         debtViewModel = ViewModelProvider(this).get(DebtorViewModel::class.java)
 
-        adapter = ArrayAdapter(
-            applicationContext,
-            android.R.layout.simple_spinner_item,
-            allDebtors
-        )
-
-        val debtors: ListView = listViewDebtors
-        debtors.adapter = adapter!!
+        debtViewModel.allDebtors.observe(this, Observer { debtors ->
+            debtors?.let { adapter.setDebtors(it) }
+        })
 
         val addDebtor: Button = buttonAddDebtor
         addDebtor.setOnClickListener { addDebtor() }
 
-        listViewDebtors.onItemLongClickListener = onItemLongClickAction()
-        listViewDebtors.onItemClickListener = onDoubleTapAction()
-
-        showNoDebtorsMsgIfNoDebtors()
-
-        allDebtors.add(Debtor("First", 20.0)) //TODO temporary
-        allDebtors.add(Debtor("Second", 30.0))
-        adapter?.notifyDataSetChanged()
-        updateDebtSum()
+//        listViewDebtors.onItemLongClickListener = onItemLongClickAction()
+//        listViewDebtors.onItemClickListener = onDoubleTapAction()
+//
+//        showNoDebtorsMsgIfNoDebtors()
     }
 
     private fun updateDebtSum() {
@@ -66,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun onDoubleTapAction(): AdapterView.OnItemClickListener {
+    private fun onDoubleTapAction(): AdapterView.OnItemClickListener { //TODO change to single click
         var lastClickTime: Long = 0
         return AdapterView.OnItemClickListener { parent, view, position, id ->
             val clickTime = System.currentTimeMillis()
@@ -90,32 +87,31 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
-        showNoDebtorsMsgIfNoDebtors()
-        adapter?.notifyDataSetChanged()
-        updateDebtSum()
+//        showNoDebtorsMsgIfNoDebtors()
+//        adapter?.notifyDataSetChanged()
+//        updateDebtSum()
     }
 
     private fun addDebtor() {
-        val intent = Intent(this, AddEditDebtorActivity::class.java)
         val addDebtorPresenter = AddEditPresenter(
             getString(text_add_new_debtor),
             true, getString(add_new_debtor_button)
         )
+
+        val intent = Intent(this@MainActivity, AddEditDebtorActivity::class.java)
         intent.putExtra(AddEditPresenter.className, addDebtorPresenter)
-        startActivity(intent)
+        startActivityForResult(intent, 1)
     }
 
     private fun editDebtor(debtorName: String, debtorOwed: Double) {
-        val intent = Intent(this, AddEditDebtorActivity::class.java)
-
         val editDebtorPresenter = AddEditPresenter(
             getString(text_edit_debtor),
             false, getString(Save_msg),
             debtorName, debtorOwed
         )
+        val intent = Intent(this@MainActivity, AddEditDebtorActivity::class.java)
         intent.putExtra(AddEditPresenter.className, editDebtorPresenter)
-
-        startActivity(intent)
+        startActivityForResult(intent, 1)
     }
 
     private fun cancelDebtFrom(debtor: Debtor): Boolean {
@@ -158,5 +154,18 @@ class MainActivity : AppCompatActivity() {
         adapter?.notifyDataSetChanged()
         updateDebtSum()
         showNoDebtorsMsgIfNoDebtors()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //TODO extract codes
+        if (resultCode == 1) { // add new debtor
+            val newDebtor = data?.getSerializableExtra("Debtor") as Debtor
+            debtViewModel.insert(newDebtor)
+        } else if (resultCode == 2) { // edit debtor
+//            val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
+//            debtViewModel.update(updatedDebtor) //TODO
+        }
     }
 }

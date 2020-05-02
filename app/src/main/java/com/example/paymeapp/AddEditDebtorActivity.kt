@@ -1,10 +1,12 @@
 package com.example.paymeapp
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
+import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
 import com.example.paymeapp.R.string.*
 import com.example.paymeapp.util.round
@@ -14,6 +16,8 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
     private val minDebtValue = 0.1
     private var addEditPresenter: AddEditPresenter = AddEditPresenter()
+
+    var allDebtors: ArrayList<Debtor> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,10 +53,12 @@ class AddEditDebtorActivity : AppCompatActivity() {
         }
 
         val newDebtor = Debtor(name, owed)
+        val replyIntent = Intent()
         if (addEditPresenter.isNewDebtor) {
-            MainActivity.allDebtors.add(newDebtor)
+            replyIntent.putExtra("Debtor", newDebtor)
+            setResult(1, replyIntent)
         } else {
-            editExistingDebtor(newDebtor)
+//            editExistingDebtor(newDebtor)
         }
 
         finish()
@@ -61,17 +67,17 @@ class AddEditDebtorActivity : AppCompatActivity() {
     private fun editExistingDebtor(newDebtor: Debtor) {
         if (newDebtor.name != addEditPresenter.debtorName || newDebtor.owed != addEditPresenter.debtorOwed) {
             val debtor =
-                MainActivity.allDebtors.find { debtor -> debtor.name == addEditPresenter.debtorName }
-            MainActivity.allDebtors.remove(debtor)
-            MainActivity.allDebtors.add(newDebtor)
+                allDebtors.find { debtor -> debtor.name == addEditPresenter.debtorName }
+            allDebtors.remove(debtor)
+            allDebtors.add(newDebtor)
         }
     }
 
     private fun toastWith(text: String) {
-        Toast.makeText(
+        makeText(
             applicationContext,
             text,
-            Toast.LENGTH_SHORT
+            LENGTH_SHORT
         ).show()
     }
 

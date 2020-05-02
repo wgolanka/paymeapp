@@ -13,16 +13,13 @@ import kotlinx.coroutines.launch
 class DebtorViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: DebtorRepository
-    // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
-    // - We can put an observer on the data (instead of polling for changes) and only update the
-    //   the UI when the data actually changes.
-    // - Repository is completely separated from the UI through the ViewModel.
+
     val allDebtors: LiveData<List<Debtor>>
 
     init {
-        val wordsDao = DebtorRoomDatabase.getDatabase(application).debtorDao()
-        repository = DebtorRepository(wordsDao)
-        allDebtors = repository.allWords
+        val debtorsDao = DebtorRoomDatabase.getDatabase(application, viewModelScope).debtorDao()
+        repository = DebtorRepository(debtorsDao)
+        allDebtors = repository.allDebtors
     }
 
     /**
@@ -30,5 +27,11 @@ class DebtorViewModel(application: Application) : AndroidViewModel(application) 
      */
     fun insert(debtor: Debtor) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(debtor)
+    }
+
+    fun getAll(): List<Debtor> {
+        val all = repository.getAll()
+        if(all.value == null) return emptyList()
+        return repository.getAll().value!!
     }
 }

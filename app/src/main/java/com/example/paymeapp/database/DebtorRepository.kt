@@ -7,9 +7,13 @@ class DebtorRepository(private val debtorDao: DebtorDao) {
 
     // Room executes all queries on a separate thread.
     // Observed LiveData will notify the observer when the data has changed.
-    val allWords: LiveData<List<Debtor>> = debtorDao.getAllDebtorsAlphabetised()
+    val allDebtors: LiveData<List<Debtor>> = debtorDao.getAllDebtorsAlphabetised()
 
     suspend fun insert(debtor: Debtor) {
         debtorDao.insert(debtor)
+    }
+
+    fun getAll(): LiveData<List<Debtor>> {
+        return debtorDao.getAllDebtorsAlphabetised()
     }
 }

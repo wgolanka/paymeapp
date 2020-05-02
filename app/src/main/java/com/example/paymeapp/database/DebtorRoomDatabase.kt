@@ -2,35 +2,46 @@ package com.example.paymeapp.database
 
 import android.content.Context
 import androidx.room.Database
-import androidx.room.Room.databaseBuilder
+import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.paymeapp.Debtor
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
-// Annotates class to be a Room Database with a table (entity) of the Word class
 @Database(entities = [Debtor::class], version = 1, exportSchema = false)
-public abstract class DebtorRoomDatabase : RoomDatabase() {
+abstract class DebtorRoomDatabase : RoomDatabase() {
 
     abstract fun debtorDao(): DebtorDao
 
+    private class DebtorDatabaseCallback(private val scope: CoroutineScope) : RoomDatabase.Callback() {
+
+        override fun onOpen(db: SupportSQLiteDatabase) {
+            super.onOpen(db)
+            INSTANCE?.let { database ->
+                //TODO remove?
+                scope.launch {
+                }
+            }
+        }
+    }
+
     companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
         @Volatile
         private var INSTANCE: DebtorRoomDatabase? = null
 
-        fun getDatabase(context: Context): DebtorRoomDatabase {
-            val tempInstance = INSTANCE
-            if (tempInstance != null) {
-                return tempInstance
-            }
-            synchronized(this) {
-                val instance = databaseBuilder(
+        fun getDatabase(context: Context, scope: CoroutineScope): DebtorRoomDatabase {
+            return INSTANCE ?: synchronized(this) {
+
+                val instance = Room.databaseBuilder(
                     context.applicationContext,
                     DebtorRoomDatabase::class.java,
                     "debtor_database"
-                ).build()
+                )
+                    .addCallback(DebtorDatabaseCallback(scope))
+                    .build()
                 INSTANCE = instance
-                return instance
+                instance
             }
         }
     }
