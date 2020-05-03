@@ -17,8 +17,6 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val doubleClickTime: Long = 300
-
     private lateinit var debtViewModel: DebtorViewModel
 
     private var allDebtors: ArrayList<Debtor> = arrayListOf()
@@ -45,6 +43,9 @@ class MainActivity : AppCompatActivity() {
         val addDebtor: Button = buttonAddDebtor
         addDebtor.setOnClickListener { addDebtor() }
 
+        adapter.onItemClick = { debtor ->
+            editDebtor(debtor)
+        }
 //        listViewDebtors.onItemLongClickListener = onItemLongClickAction()
 //        listViewDebtors.onItemClickListener = onDoubleTapAction()
 //
@@ -61,18 +62,6 @@ class MainActivity : AppCompatActivity() {
     private fun onItemLongClickAction(): AdapterView.OnItemLongClickListener {
         return AdapterView.OnItemLongClickListener { parent, view, position, id ->
             cancelDebtFrom(allDebtors[position])
-        }
-    }
-
-    private fun onDoubleTapAction(): AdapterView.OnItemClickListener { //TODO change to single click
-        var lastClickTime: Long = 0
-        return AdapterView.OnItemClickListener { parent, view, position, id ->
-            val clickTime = System.currentTimeMillis()
-            if (clickTime - lastClickTime < doubleClickTime) {
-                val clickedDebtor = allDebtors[position]
-                editDebtor(clickedDebtor.name, clickedDebtor.owed)
-            }
-            lastClickTime = clickTime
         }
     }
 
@@ -96,15 +85,15 @@ class MainActivity : AppCompatActivity() {
         startActivityForResult(intent, 1)
     }
 
-    private fun editDebtor(debtorName: String, debtorOwed: Double) {
+    private fun editDebtor(debtor: Debtor) {
         val editDebtorPresenter = AddEditPresenter(
             getString(text_edit_debtor),
             false, getString(Save_msg),
-            debtorName, debtorOwed
-        )
+            debtor.id, debtor.name, debtor.owed)
+
         val intent = Intent(this@MainActivity, AddEditDebtorActivity::class.java)
         intent.putExtra(AddEditPresenter.className, editDebtorPresenter)
-        startActivityForResult(intent, 1)
+        startActivityForResult(intent, 2)
     }
 
     private fun cancelDebtFrom(debtor: Debtor): Boolean {
@@ -154,8 +143,8 @@ class MainActivity : AppCompatActivity() {
             val newDebtor = data?.getSerializableExtra("Debtor") as Debtor
             debtViewModel.insert(newDebtor)
         } else if (resultCode == 2) { // edit debtor
-//            val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
-//            debtViewModel.update(updatedDebtor) //TODO
+            val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
+            debtViewModel.update(updatedDebtor) //TODO
         }
     }
 }

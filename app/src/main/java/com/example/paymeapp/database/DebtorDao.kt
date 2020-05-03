@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.paymeapp.Debtor
+import java.util.*
 
 @Dao
 interface DebtorDao {
@@ -21,4 +22,7 @@ interface DebtorDao {
 
     @Query("DELETE FROM debtor_table")
     suspend fun deleteAll()
+
+    @Query("UPDATE debtor_table SET name = :updatedName, owed = :updatedDebt WHERE id == :id")
+    suspend fun update(id: String, updatedName: String, updatedDebt : Double)
 }

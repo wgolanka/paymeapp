@@ -21,6 +21,8 @@ abstract class DebtorRoomDatabase : RoomDatabase() {
             INSTANCE?.let { database ->
                 //TODO remove?
                 scope.launch {
+//                    val debtDao = database.debtorDao()
+//                    debtDao.deleteAll()
                 }
             }
         }

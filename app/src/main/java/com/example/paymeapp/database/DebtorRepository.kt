@@ -16,4 +16,8 @@ class DebtorRepository(private val debtorDao: DebtorDao) {
     fun getAll(): LiveData<List<Debtor>> {
         return allDebtors
     }
+
+    suspend fun update(updatedDebtor: Debtor) {
+        return debtorDao.update(updatedDebtor.id, updatedDebtor.name, updatedDebtor.owed) //TODO WHYN TO WORK
+    }
 }

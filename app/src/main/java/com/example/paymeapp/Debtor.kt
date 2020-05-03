@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = "debtor_table")
-data class Debtor(@PrimaryKey val name: String, var owed: Double) :Serializable {
+data class Debtor(@PrimaryKey val id: String, var name: String, var owed: Double) : Serializable {
 
     override fun toString(): String {
         return "$name owe you $owed PLN"

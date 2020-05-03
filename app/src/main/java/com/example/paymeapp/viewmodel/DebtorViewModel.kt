@@ -34,4 +34,8 @@ class DebtorViewModel(application: Application) : AndroidViewModel(application) 
         if(all.value == null) return emptyList()
         return repository.getAll().value!!
     }
+
+    fun update(updatedDebtor: Debtor) = viewModelScope.launch(Dispatchers.IO) {
+        repository.update(updatedDebtor)
+    }
 }

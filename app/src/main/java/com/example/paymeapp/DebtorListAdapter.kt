@@ -12,10 +12,17 @@ class DebtorListAdapter internal constructor(
 ) : RecyclerView.Adapter<DebtorListAdapter.DebtorViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+    var onItemClick: ((Debtor) -> Unit)? = null
     private var debtors = emptyList<Debtor>()
 
     inner class DebtorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val debtorItemView: TextView = itemView.findViewById(R.id.textView)
+
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(debtors[adapterPosition])
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DebtorViewHolder {

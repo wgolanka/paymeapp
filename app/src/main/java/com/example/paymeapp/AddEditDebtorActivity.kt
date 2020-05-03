@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.paymeapp.R.string.*
 import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_add_edit_debtor.*
+import java.util.*
 
 class AddEditDebtorActivity : AppCompatActivity() {
 
@@ -52,13 +53,13 @@ class AddEditDebtorActivity : AppCompatActivity() {
             return
         }
 
-        val newDebtor = Debtor(name, owed)
         val replyIntent = Intent()
         if (addEditPresenter.isNewDebtor) {
-            replyIntent.putExtra("Debtor", newDebtor)
+            replyIntent.putExtra("Debtor", Debtor(UUID.randomUUID().toString(), name, owed))
             setResult(1, replyIntent)
         } else {
-//            editExistingDebtor(newDebtor)
+            replyIntent.putExtra("Debtor", Debtor(addEditPresenter.debtorId, name, owed))
+            setResult(2, replyIntent)
         }
 
         finish()
