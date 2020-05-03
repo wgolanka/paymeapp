@@ -14,6 +14,6 @@ class DebtorRepository(private val debtorDao: DebtorDao) {
     }
 
     fun getAll(): LiveData<List<Debtor>> {
-        return debtorDao.getAllDebtorsAlphabetised()
+        return allDebtors
     }
 }
