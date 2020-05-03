@@ -38,4 +38,8 @@ class DebtorViewModel(application: Application) : AndroidViewModel(application) 
     fun update(updatedDebtor: Debtor) = viewModelScope.launch(Dispatchers.IO) {
         repository.update(updatedDebtor)
     }
+
+    fun deleteOne(debtorId: String) = viewModelScope.launch(Dispatchers.IO) {
+        repository.deleteOne(debtorId)
+    }
 }

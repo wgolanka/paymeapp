@@ -12,7 +12,11 @@ class DebtorListAdapter internal constructor(
 ) : RecyclerView.Adapter<DebtorListAdapter.DebtorViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+
     var onItemClick: ((Debtor) -> Unit)? = null
+
+    var onLongItemClick: ((Debtor) -> Unit)? = null
+
     private var debtors = emptyList<Debtor>()
 
     inner class DebtorViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -21,6 +25,11 @@ class DebtorListAdapter internal constructor(
         init {
             itemView.setOnClickListener {
                 onItemClick?.invoke(debtors[adapterPosition])
+            }
+
+            itemView.setOnLongClickListener {
+                onLongItemClick?.invoke(debtors[adapterPosition])
+                return@setOnLongClickListener true
             }
         }
     }

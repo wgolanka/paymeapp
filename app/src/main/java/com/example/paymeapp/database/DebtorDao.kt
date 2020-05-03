@@ -17,8 +17,8 @@ interface DebtorDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(debtor: Debtor)
 
-    @Query("DELETE FROM debtor_table WHERE name == :debtorName")
-    suspend fun deleteOne(debtorName: String)
+    @Query("DELETE FROM debtor_table WHERE id == :debtorId")
+    suspend fun deleteOne(debtorId: String)
 
     @Query("DELETE FROM debtor_table")
     suspend fun deleteAll()

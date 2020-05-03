@@ -4,7 +4,9 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -46,10 +48,24 @@ class MainActivity : AppCompatActivity() {
         adapter.onItemClick = { debtor ->
             editDebtor(debtor)
         }
-//        listViewDebtors.onItemLongClickListener = onItemLongClickAction()
-//        listViewDebtors.onItemClickListener = onDoubleTapAction()
-//
+
+        adapter.onLongItemClick = { debtor ->
+            cancelDebtFrom(debtor)
+        }
 //        showNoDebtorsMsgIfNoDebtors()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        //TODO extract codes
+        if (resultCode == 1) { // add new debtor
+            val newDebtor = data?.getSerializableExtra("Debtor") as Debtor
+            debtViewModel.insert(newDebtor)
+        } else if (resultCode == 2) { // edit debtor
+            val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
+            debtViewModel.update(updatedDebtor) //TODO
+        }
     }
 
     private fun updateDebtSum() {
@@ -57,12 +73,6 @@ class MainActivity : AppCompatActivity() {
         val sum = debtViewModel.getAll().sumByDouble { it.owed }
 
         debtSum.text = String.format(getString(debtWithPln), sum.round().toString())
-    }
-
-    private fun onItemLongClickAction(): AdapterView.OnItemLongClickListener {
-        return AdapterView.OnItemLongClickListener { parent, view, position, id ->
-            cancelDebtFrom(allDebtors[position])
-        }
     }
 
     private fun showNoDebtorsMsgIfNoDebtors() {
@@ -89,7 +99,8 @@ class MainActivity : AppCompatActivity() {
         val editDebtorPresenter = AddEditPresenter(
             getString(text_edit_debtor),
             false, getString(Save_msg),
-            debtor.id, debtor.name, debtor.owed)
+            debtor.id, debtor.name, debtor.owed
+        )
 
         val intent = Intent(this@MainActivity, AddEditDebtorActivity::class.java)
         intent.putExtra(AddEditPresenter.className, editDebtorPresenter)
@@ -111,7 +122,7 @@ class MainActivity : AppCompatActivity() {
 
             setPositiveButton(getString(remove_debt_btn_msg)) { _, _ ->
                 toastWith(getString(debt_removed))
-                removeDebtFrom(debtor)
+                debtViewModel.deleteOne(debtor.id)
             }
 
             setNegativeButton(getString(Cancel_msg)) { _, _ ->
@@ -129,22 +140,5 @@ class MainActivity : AppCompatActivity() {
             text,
             Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun removeDebtFrom(debtor: Debtor) {
-//        debtViewModel.delete(debtor) //TODO
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        //TODO extract codes
-        if (resultCode == 1) { // add new debtor
-            val newDebtor = data?.getSerializableExtra("Debtor") as Debtor
-            debtViewModel.insert(newDebtor)
-        } else if (resultCode == 2) { // edit debtor
-            val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
-            debtViewModel.update(updatedDebtor) //TODO
-        }
     }
 }
