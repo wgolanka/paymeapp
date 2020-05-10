@@ -25,4 +25,7 @@
     <string name="Cancel_msg">Cancel</string>
     <string name="Save_msg">Save</string>
     <string name="Saved_msg">Saved</string>
+    <string name="notify_debtor">Notify debtor</string>
+    <string name="simulate_payment">Simulate payment</string>
+    <string name="phone_number">phone number</string>
 </resources>

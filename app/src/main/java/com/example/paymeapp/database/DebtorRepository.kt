@@ -18,7 +18,12 @@ class DebtorRepository(private val debtorDao: DebtorDao) {
     }
 
     suspend fun update(updatedDebtor: Debtor) {
-        return debtorDao.update(updatedDebtor.id, updatedDebtor.name, updatedDebtor.owed) //TODO WHYN TO WORK
+        return debtorDao.update(
+            updatedDebtor.id,
+            updatedDebtor.name,
+            updatedDebtor.owed,
+            updatedDebtor.phoneNumber
+        )
     }
 
     suspend fun deleteOne(debtorId: String) {
