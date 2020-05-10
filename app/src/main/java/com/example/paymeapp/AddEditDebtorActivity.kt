@@ -2,6 +2,7 @@ package com.example.paymeapp
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
@@ -13,12 +14,11 @@ import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_add_edit_debtor.*
 import java.util.*
 
+
 class AddEditDebtorActivity : AppCompatActivity() {
 
     private val minDebtValue = 0.1
     private var addEditPresenter: AddEditPresenter = AddEditPresenter()
-
-    var allDebtors: ArrayList<Debtor> = arrayListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +29,18 @@ class AddEditDebtorActivity : AppCompatActivity() {
         if (!addEditPresenter.isNewDebtor) {
             editTextName.setText(addEditPresenter.debtorName)
             editTextOwed.setText(addEditPresenter.debtorOwed.toString())
+            editTextPhoneNumber.setText(addEditPresenter.debtorPhoneNumber)
+
+            buttonNotify.visibility = View.VISIBLE
+            buttonSimulatePayment.visibility = View.VISIBLE
+        } else {
+            buttonNotify.visibility = View.INVISIBLE
+            buttonSimulatePayment.visibility = View.INVISIBLE
         }
 
         textViewAddNewDebtor.text = addEditPresenter.title
         buttonAdd.text = addEditPresenter.buttonText
+
     }
 
     fun addNewDebtor(view: View) {
@@ -40,13 +48,15 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
-        if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank()) {
+        val debtorPhoneNumber: EditText = editTextPhoneNumber
+        if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank() || debtorPhoneNumber.text.isNullOrBlank()) {
             toastWith(getString(enter_debtor_info))
             return
         }
 
         val name: String = debtorName.text.toString()
         val owed: Double = debtorOwed.round()
+        val phoneNumber: String = debtorPhoneNumber.text.toString()
 
         if (owed < minDebtValue) {
             toastWith(getString(debt_too_small_info))
@@ -55,23 +65,14 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
         val replyIntent = Intent()
         if (addEditPresenter.isNewDebtor) {
-            replyIntent.putExtra("Debtor", Debtor(UUID.randomUUID().toString(), name, owed))
+            replyIntent.putExtra("Debtor", Debtor(UUID.randomUUID().toString(), name, owed, phoneNumber))
             setResult(1, replyIntent)
         } else {
-            replyIntent.putExtra("Debtor", Debtor(addEditPresenter.debtorId, name, owed))
+            replyIntent.putExtra("Debtor", Debtor(addEditPresenter.debtorId, name, owed, phoneNumber))
             setResult(2, replyIntent)
         }
 
         finish()
-    }
-
-    private fun editExistingDebtor(newDebtor: Debtor) {
-        if (newDebtor.name != addEditPresenter.debtorName || newDebtor.owed != addEditPresenter.debtorOwed) {
-            val debtor =
-                allDebtors.find { debtor -> debtor.name == addEditPresenter.debtorName }
-            allDebtors.remove(debtor)
-            allDebtors.add(newDebtor)
-        }
     }
 
     private fun toastWith(text: String) {
@@ -111,5 +112,25 @@ class AddEditDebtorActivity : AppCompatActivity() {
         }
 
         builder.show()
+    }
+
+    fun notifyDebtor(view: View) {
+        val debtorPhoneNumber = if (!editTextPhoneNumber.text.isNullOrEmpty()) editTextPhoneNumber.text else
+            addEditPresenter.debtorPhoneNumber
+        val debtorOwed = if (!editTextOwed.text.isNullOrEmpty()) editTextOwed.text else
+            addEditPresenter.debtorOwed.toString()
+
+        val intentSms = Intent(Intent.ACTION_VIEW, Uri.parse("sms:${debtorPhoneNumber}"))
+        intentSms.putExtra(
+            "sms_body", "Hi, you owe me $debtorOwed PLN, please give it back or I'm calling " +
+                    "the bagietmajsters"
+        )
+        if (intentSms.resolveActivity(packageManager) != null) {
+            startActivity(intentSms)
+        }
+    }
+
+    fun simulateDebtPayment(view: View) {
+
     }
 }

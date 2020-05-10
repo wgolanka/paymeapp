@@ -11,7 +11,7 @@ import java.util.*
 @Dao
 interface DebtorDao {
 
-    @Query("SELECT * from debtor_table ORDER BY name ASC")
+    @Query("SELECT * from debtor_table")
     fun getAllDebtorsAlphabetised(): LiveData<List<Debtor>>
 
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -23,6 +23,6 @@ interface DebtorDao {
     @Query("DELETE FROM debtor_table")
     suspend fun deleteAll()
 
-    @Query("UPDATE debtor_table SET name = :updatedName, owed = :updatedDebt WHERE id == :id")
-    suspend fun update(id: String, updatedName: String, updatedDebt : Double)
+    @Query("UPDATE debtor_table SET name = :updatedName, owed = :updatedDebt, phoneNumber = :updatedPhoneNumber WHERE id == :id")
+    suspend fun update(id: String, updatedName: String, updatedDebt: Double, updatedPhoneNumber: String)
 }

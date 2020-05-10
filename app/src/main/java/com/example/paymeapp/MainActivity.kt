@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
             debtViewModel.insert(newDebtor)
         } else if (resultCode == 2) { // edit debtor
             val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
-            debtViewModel.update(updatedDebtor) //TODO
+            debtViewModel.update(updatedDebtor)
         }
     }
 
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         val editDebtorPresenter = AddEditPresenter(
             getString(text_edit_debtor),
             false, getString(Save_msg),
-            debtor.id, debtor.name, debtor.owed
+            debtor.id, debtor.name, debtor.owed, debtor.phoneNumber
         )
 
         val intent = Intent(this@MainActivity, AddEditDebtorActivity::class.java)

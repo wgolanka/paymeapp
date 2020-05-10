@@ -11,33 +11,47 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/edit_text_hint_name"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewAddNewDebtor"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewAddNewDebtor" />
+
+    <EditText
+        android:id="@+id/editTextPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <EditText
         android:id="@+id/editTextOwed"
         android:layout_width="161dp"
         android:layout_height="39dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="36dp"
+        android:autofillHints=""
         android:ems="10"
         android:hint="@string/field_text_hint"
         android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.396"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextName"
-        android:autofillHints="" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneNumber" />
 
     <Button
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="12dp"
         android:onClick="addNewDebtor"
         android:text="@string/add_new_debtor_button"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,17 +60,37 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextOwed" />
 
     <Button
+        android:id="@+id/buttonNotify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="notifyDebtor"
+        android:text="@string/notify_debtor"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonCancel" />
+
+    <Button
+        android:id="@+id/buttonSimulatePayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="simulateDebtPayment"
+        android:text="@string/simulate_payment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonNotify" />
+
+    <Button
         android:id="@+id/buttonCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_text_cancel"
         android:onClick="cancelAddNewDebtor"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="@string/button_text_cancel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonAdd"
-        app:layout_constraintVertical_bias="0.165" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonAdd" />
 
     <TextView
         android:id="@+id/textViewAddNewDebtor"
@@ -82,4 +116,5 @@
         app:layout_constraintStart_toEndOf="@+id/editTextOwed"
         app:layout_constraintTop_toTopOf="@+id/editTextOwed"
         app:layout_constraintVertical_bias="0.529" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

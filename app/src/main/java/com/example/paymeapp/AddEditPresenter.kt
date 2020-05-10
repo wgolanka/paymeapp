@@ -8,7 +8,8 @@ data class AddEditPresenter(
     val buttonText: String = "Ok",
     val debtorId: String = "",
     val debtorName: String = "",
-    val debtorOwed: Double = 0.0
+    val debtorOwed: Double = 0.0,
+    val debtorPhoneNumber: String = ""
 ) : Serializable {
 
     companion object {
