@@ -132,5 +132,8 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
     fun simulateDebtPayment(view: View) {
 
+        val intent = Intent(this@AddEditDebtorActivity, DebtPaymentSimulation::class.java)
+        intent.putExtra(AddEditPresenter.className, addEditPresenter)
+        startActivityForResult(intent, 3)
     }
 }

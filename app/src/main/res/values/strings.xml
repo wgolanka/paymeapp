@@ -28,4 +28,10 @@
     <string name="notify_debtor">Notify debtor</string>
     <string name="simulate_payment">Simulate payment</string>
     <string name="phone_number">phone number</string>
+    <string name="debt_payment_simulation">Debt payment simulation</string>
+    <string name="textview">TextView</string>
+    <string name="textviewDebt">TextView</string>
+    <string name="payment_speed_rate">Payment speed rate</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
 </resources>
