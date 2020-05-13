@@ -14,7 +14,6 @@ import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_add_edit_debtor.*
 import java.util.*
 
-
 class AddEditDebtorActivity : AppCompatActivity() {
 
     private val minDebtValue = 0.1
@@ -43,48 +42,11 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
     }
 
-    fun addNewDebtor(view: View) {
-        //TODO do not add if already exist
-        //TODO when using back arrow also launch on cancel - or maybe remove cancel button at all?
-
-        val debtorName: EditText = editTextName
-        val debtorOwed: EditText = editTextOwed
-        val debtorPhoneNumber: EditText = editTextPhoneNumber
-        if (debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank() || debtorPhoneNumber.text.isNullOrBlank()) {
-            toastWith(getString(enter_debtor_info))
-            return
-        }
-
-        val name: String = debtorName.text.toString()
-        val owed: Double = debtorOwed.round()
-        val phoneNumber: String = debtorPhoneNumber.text.toString()
-
-        if (owed < minDebtValue) {
-            toastWith(getString(debt_too_small_info))
-            return
-        }
-
-        val replyIntent = Intent()
-        if (addEditPresenter.isNewDebtor) {
-            replyIntent.putExtra("Debtor", Debtor(UUID.randomUUID().toString(), name, owed, phoneNumber))
-            setResult(1, replyIntent)
-        } else {
-            replyIntent.putExtra("Debtor", Debtor(addEditPresenter.debtorId, name, owed, phoneNumber))
-            setResult(2, replyIntent)
-        }
-
-        finish()
+    override fun onBackPressed() {
+        cancelAddOrEditDebtor()
     }
 
-    private fun toastWith(text: String) {
-        makeText(
-            applicationContext,
-            text,
-            LENGTH_SHORT
-        ).show()
-    }
-
-    fun cancelAddNewDebtor(view: View) { //TODO why app craches when not used view is removed
+    private fun cancelAddOrEditDebtor() {
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
 
@@ -115,7 +77,57 @@ class AddEditDebtorActivity : AppCompatActivity() {
         builder.show()
     }
 
-    fun notifyDebtor(view: View) {
+    fun onButtonSaveOrAdd(view: View) {
+        //TODO do not add if already exist
+
+        val debtorName: EditText = editTextName
+        val debtorOwed: EditText = editTextOwed
+        val debtorPhoneNumber: EditText = editTextPhoneNumber
+        if (notFilled(debtorName, debtorOwed, debtorPhoneNumber)) {
+            toastWith(getString(enter_debtor_info))
+            return
+        }
+
+        val name: String = debtorName.text.toString()
+        val owed: Double = debtorOwed.round()
+        val phoneNumber: String = debtorPhoneNumber.text.toString()
+
+        if (owed < minDebtValue) {
+            toastWith(getString(debt_too_small_info))
+            return
+        }
+
+        val replyIntent = Intent()
+        if (addEditPresenter.isNewDebtor) {
+            replyIntent.putExtra("Debtor", Debtor(UUID.randomUUID().toString(), name, owed, phoneNumber))
+            setResult(1, replyIntent)
+        } else {
+            replyIntent.putExtra("Debtor", Debtor(addEditPresenter.debtorId, name, owed, phoneNumber))
+            setResult(2, replyIntent)
+        }
+
+        finish()
+    }
+
+    private fun notFilled(
+        debtorName: EditText,
+        debtorOwed: EditText,
+        debtorPhoneNumber: EditText
+    ) = debtorName.text.isNullOrBlank() || debtorOwed.text.isNullOrBlank() || debtorPhoneNumber.text.isNullOrBlank()
+
+    private fun toastWith(text: String) {
+        makeText(
+            applicationContext,
+            text,
+            LENGTH_SHORT
+        ).show()
+    }
+
+    fun onButtonCancel(view: View) { //TODO why app craches when not used view is removed
+        cancelAddOrEditDebtor()
+    }
+
+    fun onButtonNotifyDebtor(view: View) {
         val debtorPhoneNumber = if (!editTextPhoneNumber.text.isNullOrEmpty()) editTextPhoneNumber.text else
             addEditPresenter.debtorPhoneNumber
         val debtorOwed = if (!editTextOwed.text.isNullOrEmpty()) editTextOwed.text else
@@ -124,15 +136,15 @@ class AddEditDebtorActivity : AppCompatActivity() {
         val intentSms = Intent(Intent.ACTION_VIEW, Uri.parse("sms:${debtorPhoneNumber}"))
         intentSms.putExtra(
             "sms_body", "Hi, you owe me $debtorOwed PLN, please give it back or I'm calling " +
-                    "the bagietmajsters"
+                    "the police!"
         )
+
         if (intentSms.resolveActivity(packageManager) != null) {
             startActivity(intentSms)
         }
     }
 
-    fun simulateDebtPayment(view: View) {
-
+    fun launchSimulateDebtPaymentActivity(view: View) {
         val intent = Intent(this@AddEditDebtorActivity, DebtPaymentSimulation::class.java)
         intent.putExtra(AddEditPresenter.className, addEditPresenter)
         startActivityForResult(intent, 3)
