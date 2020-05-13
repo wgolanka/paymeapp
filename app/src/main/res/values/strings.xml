@@ -14,7 +14,7 @@
     <string name="no">No</string>
     <string name="cancel_question">Are you sure to cancel?</string>
     <string name="cancel_info">This debtor will NOT be saved</string>
-    <string name="enter_debtor_info">Please enter debtor name and sum owed</string>
+    <string name="enter_debtor_info">Please enter debtor name, phone number and sum owed</string>
     <string name="debt_too_small_info">Owed debt must be bigger then 0!</string>
     <string name="debtWithPln">%s PLN</string>
     <string name="textHoorayNoDebtors">Hooray! No debtors:)</string>
@@ -28,4 +28,11 @@
     <string name="notify_debtor">Notify debtor</string>
     <string name="simulate_payment">Simulate payment</string>
     <string name="phone_number">phone number</string>
+    <string name="debt_payment_simulation">Debt payment simulation</string>
+    <string name="textview">TextView</string>
+    <string name="textviewDebt">TextView</string>
+    <string name="payment_speed_rate">Payment speed rate</string>
+    <string name="start">Start</string>
+    <string name="stop">Stop</string>
+    <string name="interest_rate">Interest rate</string>
 </resources>

@@ -43,7 +43,9 @@ class MainActivity : AppCompatActivity() {
         })
 
         val addDebtor: Button = buttonAddDebtor
-        addDebtor.setOnClickListener { addDebtor() }
+        addDebtor.setOnClickListener {
+            addDebtor()
+        }
 
         adapter.onItemClick = { debtor ->
             editDebtor(debtor)
