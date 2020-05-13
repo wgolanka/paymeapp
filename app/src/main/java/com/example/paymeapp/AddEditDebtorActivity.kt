@@ -45,6 +45,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
     fun addNewDebtor(view: View) {
         //TODO do not add if already exist
+        //TODO when using back arrow also launch on cancel - or maybe remove cancel button at all?
 
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
