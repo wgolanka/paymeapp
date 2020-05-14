@@ -78,7 +78,6 @@ class AddEditDebtorActivity : AppCompatActivity() {
     }
 
     fun onButtonSaveOrAdd(view: View) {
-        //TODO do not add if already exist
 
         val debtorName: EditText = editTextName
         val debtorOwed: EditText = editTextOwed
@@ -99,11 +98,11 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
         val replyIntent = Intent()
         if (addEditPresenter.isNewDebtor) {
-            replyIntent.putExtra("Debtor", Debtor(UUID.randomUUID().toString(), name, owed, phoneNumber))
-            setResult(1, replyIntent)
+            replyIntent.putExtra(debtorClassId, Debtor(UUID.randomUUID().toString(), name, owed, phoneNumber))
+            setResult(addDebtorCode, replyIntent)
         } else {
-            replyIntent.putExtra("Debtor", Debtor(addEditPresenter.debtorId, name, owed, phoneNumber))
-            setResult(2, replyIntent)
+            replyIntent.putExtra(debtorClassId, Debtor(addEditPresenter.debtorId, name, owed, phoneNumber))
+            setResult(editDebtorCode, replyIntent)
         }
 
         finish()
@@ -147,6 +146,6 @@ class AddEditDebtorActivity : AppCompatActivity() {
     fun launchSimulateDebtPaymentActivity(view: View) {
         val intent = Intent(this@AddEditDebtorActivity, DebtPaymentSimulation::class.java)
         intent.putExtra(AddEditPresenter.className, addEditPresenter)
-        startActivityForResult(intent, 3)
+        startActivity(intent)
     }
 }

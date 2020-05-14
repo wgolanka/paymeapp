@@ -42,4 +42,12 @@ class DebtorViewModel(application: Application) : AndroidViewModel(application) 
     fun deleteOne(debtorId: String) = viewModelScope.launch(Dispatchers.IO) {
         repository.deleteOne(debtorId)
     }
+
+    fun existsByName(name: String): Boolean {
+        return getAll().any { it.name == name }
+    }
+
+    fun hasDebtors(): Boolean {
+        return getAll().isNotEmpty()
+    }
 }

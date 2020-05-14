@@ -36,7 +36,7 @@ class DebtPaymentSimulation : AppCompatActivity() {
             return
         }
 
-        val commission = commissionText.toString().toDouble()
+        val commission = commissionText.toString().toDouble() // todo should be in %
         var commissionSum = 0.0
         var debt = addEditPresenter.debtorOwed
         var firstIteration = true

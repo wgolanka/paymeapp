@@ -21,8 +21,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var debtViewModel: DebtorViewModel
 
-    private var allDebtors: ArrayList<Debtor> = arrayListOf()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,6 +37,7 @@ class MainActivity : AppCompatActivity() {
             debtors?.let {
                 adapter.setDebtors(it)
                 updateDebtSum()
+                showNoDebtorsMsgIfNoDebtors()
             }
         })
 
@@ -54,19 +53,28 @@ class MainActivity : AppCompatActivity() {
         adapter.onLongItemClick = { debtor ->
             cancelDebtFrom(debtor)
         }
-//        showNoDebtorsMsgIfNoDebtors()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        //TODO extract codes
-        if (resultCode == 1) { // add new debtor
-            val newDebtor = data?.getSerializableExtra("Debtor") as Debtor
-            debtViewModel.insert(newDebtor)
-        } else if (resultCode == 2) { // edit debtor
-            val updatedDebtor = data?.getSerializableExtra("Debtor") as Debtor
-            debtViewModel.update(updatedDebtor)
+        if (resultCode == addDebtorCode) {
+            val newDebtor = data?.getSerializableExtra(debtorClassId) as Debtor
+            if (debtViewModel.existsByName(newDebtor.name)) {
+                editDebtor(newDebtor)
+                Toast.makeText(
+                    applicationContext,
+                    "Please change name, debtor like this already exist",
+                    Toast.LENGTH_LONG
+                ).show()
+            } else {
+                debtViewModel.insert(newDebtor)
+            }
+        } else {
+            if (resultCode == editDebtorCode) { // edit debtor
+                val updatedDebtor = data?.getSerializableExtra(debtorClassId) as Debtor
+                debtViewModel.update(updatedDebtor)
+            }
         }
     }
 
@@ -79,7 +87,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun showNoDebtorsMsgIfNoDebtors() {
         val noDebtorsTextView: TextView = textViewNoDebtors
-        noDebtorsTextView.visibility = if (allDebtors.isEmpty()) {
+        noDebtorsTextView.visibility = if (!debtViewModel.hasDebtors()) {
             View.VISIBLE
         } else {
             View.INVISIBLE
@@ -123,12 +131,12 @@ class MainActivity : AppCompatActivity() {
             )
 
             setPositiveButton(getString(remove_debt_btn_msg)) { _, _ ->
-                toastWith(getString(debt_removed))
+                shortToastWith(getString(debt_removed))
                 debtViewModel.deleteOne(debtor.id)
             }
 
             setNegativeButton(getString(Cancel_msg)) { _, _ ->
-                toastWith(getString(Cancel_msg))
+                shortToastWith(getString(Cancel_msg))
             }
         }
 
@@ -136,7 +144,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    private fun toastWith(text: String) {
+    private fun shortToastWith(text: String) {
         Toast.makeText(
             applicationContext,
             text,
