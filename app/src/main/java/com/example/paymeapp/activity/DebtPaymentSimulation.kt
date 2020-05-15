@@ -6,7 +6,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.paymeapp.R
-import com.example.paymeapp.R.string
 import com.example.paymeapp.R.string.*
 import com.example.paymeapp.presenter.AddEditPresenter
 import com.example.paymeapp.util.round
@@ -22,12 +21,12 @@ class DebtPaymentSimulation : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debt_payment_simulation)
         addEditPresenter = intent.getSerializableExtra(AddEditPresenter.className) as AddEditPresenter
-//        editTextDebtorBasicInfo.text = "${addEditPresenter.debtorName}, ${addEditPresenter.debtorPhoneNumber}"
+
         editTextDebtorBasicInfo.text = String.format(
             getString(basicInfo), addEditPresenter.debtorName,
             addEditPresenter.debtorPhoneNumber
         )
-        editTextDebtorDebt.text = "Owed: ${addEditPresenter.debtorOwed}"
+        editTextDebtorDebt.text = String.format(getString(simDebt), addEditPresenter.debtorOwed.toString())
     }
 
     fun startSimulation(view: View) {
@@ -44,7 +43,7 @@ class DebtPaymentSimulation : AppCompatActivity() {
             return
         }
 
-        val commission = commissionText.toString().toDouble() // todo should be in %
+        val commission = commissionText.toString().toDouble() / 100
         var commissionSum = 0.0
         var debt = addEditPresenter.debtorOwed
         var firstIteration = true
@@ -61,11 +60,11 @@ class DebtPaymentSimulation : AppCompatActivity() {
                 debt -= payRate
 
                 if (debt <= 0) {
-                    editTextDebtorDebt.text = "0"
+                    editTextDebtorDebt.text = String.format(getString(simDebt), "0")
                     toastWith("commission together was ${commissionSum.round()}")
                     return
                 }
-                editTextDebtorDebt.text = debt.round().toString()
+                editTextDebtorDebt.text = String.format(getString(simDebt), debt.round().toString())
                 firstIteration = false
                 handler.postDelayed(this, 1000)
             }

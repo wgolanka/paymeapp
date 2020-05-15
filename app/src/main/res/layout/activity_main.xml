@@ -7,32 +7,19 @@
     android:screenOrientation="portrait"
     tools:context=".activity.MainActivity">
 
-    <TextView
-        android:id="@+id/TextYourDebtors"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/your_debtors"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.118"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.084" />
-
     <Button
         android:id="@+id/buttonAddDebtor"
-        android:layout_width="91dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="52dp"
+        android:layout_width="120dp"
+        android:layout_height="61dp"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/holo_blue_bright"
         android:text="@string/add_new_debtor_button"
-        android:background="@android:color/holo_blue_light"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerView"
+        android:textColor="#000000"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.516"
-        app:layout_constraintStart_toEndOf="@+id/TextYourDebtors"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintHorizontal_bias="0.756"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numDebtSum" />
 
     <TextView
         android:id="@+id/TextDebtSum"
@@ -40,12 +27,14 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="@string/debt_sum_text"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.162"
+        app:layout_constraintHorizontal_bias="0.145"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintVertical_bias="0.14" />
 
     <EditText
         android:id="@+id/numDebtSum"
@@ -62,8 +51,10 @@
         android:inputType="number"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.449"
         app:layout_constraintStart_toEndOf="@+id/TextDebtSum"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerView" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+        app:layout_constraintVertical_bias="0.149" />
 
     <TextView
         android:id="@+id/textViewNoDebtors"
@@ -74,15 +65,39 @@
         app:layout_constraintEnd_toStartOf="@+id/buttonAddDebtor"
         app:layout_constraintHorizontal_bias="0.166"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="338dp"
-        android:layout_height="305dp"
-        android:layout_marginTop="44dp"
+        android:layout_width="374dp"
+        android:layout_height="234dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TextYourDebtors" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddDebtor"
+        app:layout_constraintVertical_bias="0.191"
+        app:srcCompat="@drawable/logo" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="297dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/yourdebtors2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,5 +23,9 @@ limitations under the License. -->
         style="@style/Widget.AppCompat.TextView.SpinnerItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/transparent"
+        android:lineSpacingExtra="8sp"
+        android:textAllCaps="false"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textSize="24sp" />
 </LinearLayout>
