@@ -1,5 +1,7 @@
 package com.example.paymeapp.dto
 
+import android.content.ContentValues
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.io.Serializable

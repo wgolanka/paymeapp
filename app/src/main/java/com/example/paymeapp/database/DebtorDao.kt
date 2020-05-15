@@ -1,5 +1,6 @@
 package com.example.paymeapp.database
 
+import android.database.Cursor
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
@@ -9,6 +10,12 @@ import com.example.paymeapp.dto.Debtor
 
 @Dao
 interface DebtorDao {
+
+    @Query("SELECT * FROM debtor_table")
+    fun selectAll(): Cursor?
+
+    @Query("SELECT * FROM debtor_table WHERE id == :debtorId")
+    fun selectById(debtorId: String): Cursor?
 
     @Query("SELECT * from debtor_table")
     fun getAllDebtorsAlphabetised(): LiveData<List<Debtor>>
