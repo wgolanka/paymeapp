@@ -5,8 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.paymeapp.Debtor
-import java.util.*
+import com.example.paymeapp.dto.Debtor
 
 @Dao
 interface DebtorDao {

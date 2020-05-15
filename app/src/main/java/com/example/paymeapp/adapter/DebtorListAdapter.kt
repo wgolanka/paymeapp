@@ -1,4 +1,4 @@
-package com.example.paymeapp
+package com.example.paymeapp.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.paymeapp.R
+import com.example.paymeapp.dto.Debtor
 
 class DebtorListAdapter internal constructor(
     context: Context

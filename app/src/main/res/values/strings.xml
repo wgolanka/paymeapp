@@ -34,5 +34,11 @@
     <string name="payment_speed_rate">Payment speed rate</string>
     <string name="start">Start</string>
     <string name="stop">Stop</string>
-    <string name="interest_rate">Interest rate</string>
+    <string name="interest_rate">Interest rate in %</string>
+    <string name="payRateRequired">Pay rate is required</string>
+    <string name="CommissionRequired">Commission is required and must be bigger than 0</string>
+    <string name="smsBody">sms_body</string>
+    <string name="oweMoneyMsg">Hi, you owe me %s PLN, please give it back or I\'m calling the police 🚓🚨🚨🚨👮</string>
+    <string name="smsNumberToParse">sms:%s</string>
+    <string name="basicInfo">Name: %1s\nPhone number: %2s"</string>
 </resources>

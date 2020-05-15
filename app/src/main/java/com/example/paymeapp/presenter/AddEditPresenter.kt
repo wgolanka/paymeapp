@@ -1,4 +1,4 @@
-package com.example.paymeapp
+package com.example.paymeapp.presenter
 
 import java.io.Serializable
 

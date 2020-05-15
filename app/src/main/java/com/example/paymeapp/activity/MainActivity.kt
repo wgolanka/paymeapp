@@ -1,4 +1,4 @@
-package com.example.paymeapp
+package com.example.paymeapp.activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -12,7 +12,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.paymeapp.*
 import com.example.paymeapp.R.string.*
+import com.example.paymeapp.adapter.DebtorListAdapter
+import com.example.paymeapp.dto.Debtor
+import com.example.paymeapp.presenter.AddEditPresenter
 import com.example.paymeapp.util.round
 import com.example.paymeapp.viewmodel.DebtorViewModel
 import kotlinx.android.synthetic.main.activity_main.*

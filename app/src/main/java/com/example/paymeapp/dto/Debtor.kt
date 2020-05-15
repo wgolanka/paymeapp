@@ -1,4 +1,4 @@
-package com.example.paymeapp
+package com.example.paymeapp.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

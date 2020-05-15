@@ -1,7 +1,7 @@
 package com.example.paymeapp.database
 
 import androidx.lifecycle.LiveData
-import com.example.paymeapp.Debtor
+import com.example.paymeapp.dto.Debtor
 
 class DebtorRepository(private val debtorDao: DebtorDao) {
 

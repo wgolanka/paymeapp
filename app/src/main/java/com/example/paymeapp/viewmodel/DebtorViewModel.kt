@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
-import com.example.paymeapp.Debtor
+import com.example.paymeapp.dto.Debtor
 import com.example.paymeapp.database.DebtorRepository
 import com.example.paymeapp.database.DebtorRoomDatabase
 import kotlinx.coroutines.Dispatchers

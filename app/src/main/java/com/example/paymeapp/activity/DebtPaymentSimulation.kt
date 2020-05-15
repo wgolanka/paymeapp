@@ -1,10 +1,14 @@
-package com.example.paymeapp
+package com.example.paymeapp.activity
 
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.paymeapp.R
+import com.example.paymeapp.R.string
+import com.example.paymeapp.R.string.*
+import com.example.paymeapp.presenter.AddEditPresenter
 import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_debt_payment_simulation.*
 
@@ -18,21 +22,25 @@ class DebtPaymentSimulation : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_debt_payment_simulation)
         addEditPresenter = intent.getSerializableExtra(AddEditPresenter.className) as AddEditPresenter
-        editTextDebtorBasicInfo.setText("${addEditPresenter.debtorName}, ${addEditPresenter.debtorPhoneNumber}")
-        editTextDebtorDebt.setText("Owed: ${addEditPresenter.debtorOwed}")
+//        editTextDebtorBasicInfo.text = "${addEditPresenter.debtorName}, ${addEditPresenter.debtorPhoneNumber}"
+        editTextDebtorBasicInfo.text = String.format(
+            getString(basicInfo), addEditPresenter.debtorName,
+            addEditPresenter.debtorPhoneNumber
+        )
+        editTextDebtorDebt.text = "Owed: ${addEditPresenter.debtorOwed}"
     }
 
     fun startSimulation(view: View) {
         val payRateText = editTextPaySpeed.text
         val commissionText = editTextInterestRate.text
         if (payRateText.isNullOrBlank()) {
-            toastWith("Pay rate is required")
+            toastWith(getString(payRateRequired))
             return
         }
         val payRate = payRateText.toString().toDouble()
 
         if (commissionText.isNullOrBlank() || commissionText.toString().toDouble() <= 0) {
-            toastWith("Commission is required and must be bigger than 0")
+            toastWith(getString(CommissionRequired))
             return
         }
 
@@ -53,11 +61,11 @@ class DebtPaymentSimulation : AppCompatActivity() {
                 debt -= payRate
 
                 if (debt <= 0) {
-                    editTextDebtorDebt.setText("0")
+                    editTextDebtorDebt.text = "0"
                     toastWith("commission together was ${commissionSum.round()}")
                     return
                 }
-                editTextDebtorDebt.setText(debt.round().toString())
+                editTextDebtorDebt.text = debt.round().toString()
                 firstIteration = false
                 handler.postDelayed(this, 1000)
             }

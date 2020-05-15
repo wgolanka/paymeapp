@@ -1,4 +1,4 @@
-package com.example.paymeapp
+package com.example.paymeapp.activity
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -9,7 +9,13 @@ import android.widget.EditText
 import android.widget.Toast.LENGTH_SHORT
 import android.widget.Toast.makeText
 import androidx.appcompat.app.AppCompatActivity
+import com.example.paymeapp.R
 import com.example.paymeapp.R.string.*
+import com.example.paymeapp.addDebtorCode
+import com.example.paymeapp.debtorClassId
+import com.example.paymeapp.dto.Debtor
+import com.example.paymeapp.editDebtorCode
+import com.example.paymeapp.presenter.AddEditPresenter
 import com.example.paymeapp.util.round
 import kotlinx.android.synthetic.main.activity_add_edit_debtor.*
 import java.util.*
@@ -98,10 +104,21 @@ class AddEditDebtorActivity : AppCompatActivity() {
 
         val replyIntent = Intent()
         if (addEditPresenter.isNewDebtor) {
-            replyIntent.putExtra(debtorClassId, Debtor(UUID.randomUUID().toString(), name, owed, phoneNumber))
+            replyIntent.putExtra(
+                debtorClassId,
+                Debtor(
+                    UUID.randomUUID().toString(),
+                    name,
+                    owed,
+                    phoneNumber
+                )
+            )
             setResult(addDebtorCode, replyIntent)
         } else {
-            replyIntent.putExtra(debtorClassId, Debtor(addEditPresenter.debtorId, name, owed, phoneNumber))
+            replyIntent.putExtra(
+                debtorClassId,
+                Debtor(addEditPresenter.debtorId, name, owed, phoneNumber)
+            )
             setResult(editDebtorCode, replyIntent)
         }
 
@@ -132,10 +149,16 @@ class AddEditDebtorActivity : AppCompatActivity() {
         val debtorOwed = if (!editTextOwed.text.isNullOrEmpty()) editTextOwed.text else
             addEditPresenter.debtorOwed.toString()
 
-        val intentSms = Intent(Intent.ACTION_VIEW, Uri.parse("sms:${debtorPhoneNumber}"))
+        val intentSms = Intent(
+            Intent.ACTION_VIEW, Uri.parse(
+                String.format(
+                    getString(smsNumberToParse),
+                    debtorPhoneNumber.toString()
+                )
+            )
+        )
         intentSms.putExtra(
-            "sms_body", "Hi, you owe me $debtorOwed PLN, please give it back or I'm calling " +
-                    "the police!"
+            getString(smsBody), String.format(getString(oweMoneyMsg), debtorOwed.toString())
         )
 
         if (intentSms.resolveActivity(packageManager) != null) {
@@ -143,7 +166,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
         }
     }
 
-    fun launchSimulateDebtPaymentActivity(view: View) {
+    fun onButtonSimulatePayment(view: View) {
         val intent = Intent(this@AddEditDebtorActivity, DebtPaymentSimulation::class.java)
         intent.putExtra(AddEditPresenter.className, addEditPresenter)
         startActivity(intent)
