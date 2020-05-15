@@ -73,7 +73,8 @@
         android:text="@string/notify_debtor"
         android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/buttonSimulatePayment"
+        app:layout_constraintHorizontal_bias="0.426"
+        app:layout_constraintStart_toEndOf="@+id/buttonCancel"
         app:layout_constraintTop_toBottomOf="@+id/buttonAdd" />
 
     <Button
@@ -84,8 +85,8 @@
         android:background="@android:color/holo_orange_dark"
         android:onClick="onButtonSimulatePayment"
         android:text="@string/simulate_payment"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.102"
+        app:layout_constraintEnd_toStartOf="@+id/buttonAdd"
+        app:layout_constraintHorizontal_bias="0.537"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonCancel" />
 
@@ -109,6 +110,7 @@
         android:layout_marginTop="24dp"
         android:text="@string/text_add_new_debtor"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

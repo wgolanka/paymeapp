@@ -139,7 +139,7 @@ class AddEditDebtorActivity : AppCompatActivity() {
         ).show()
     }
 
-    fun onButtonCancel(view: View) { //TODO why app craches when not used view is removed
+    fun onButtonCancel(view: View) {
         cancelAddOrEditDebtor()
     }
 

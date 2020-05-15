@@ -4,6 +4,8 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -12,10 +14,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.paymeapp.*
+import com.example.paymeapp.R
 import com.example.paymeapp.R.string.*
 import com.example.paymeapp.adapter.DebtorListAdapter
+import com.example.paymeapp.addDebtorCode
+import com.example.paymeapp.debtorClassId
 import com.example.paymeapp.dto.Debtor
+import com.example.paymeapp.editDebtorCode
 import com.example.paymeapp.presenter.AddEditPresenter
 import com.example.paymeapp.util.round
 import com.example.paymeapp.viewmodel.DebtorViewModel
@@ -47,7 +52,19 @@ class MainActivity : AppCompatActivity() {
 
         val addDebtor: Button = buttonAddDebtor
         addDebtor.setOnClickListener {
-            addDebtor()
+            val animation = AnimationUtils.loadAnimation(this, R.anim.rotate)
+            animation.setAnimationListener(object : Animation.AnimationListener {
+                override fun onAnimationEnd(animation: Animation) {
+                    addDebtor()
+                }
+
+                override fun onAnimationRepeat(animation: Animation) { // Do nothing!
+                }
+
+                override fun onAnimationStart(animation: Animation) { // Do nothing!
+                }
+            })
+            it.startAnimation(animation)
         }
 
         adapter.onItemClick = { debtor ->

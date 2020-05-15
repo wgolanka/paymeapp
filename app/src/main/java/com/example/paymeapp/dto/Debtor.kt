@@ -9,6 +9,6 @@ data class Debtor(@PrimaryKey val id: String, var name: String, var owed: Double
     Serializable {
 
     override fun toString(): String {
-        return "$name owe you $owed PLN"
+        return "💲$name owe you $owed PLN"
     }
 }

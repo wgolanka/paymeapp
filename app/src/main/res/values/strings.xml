@@ -25,8 +25,8 @@
     <string name="Cancel_msg">Cancel</string>
     <string name="Save_msg">Save</string>
     <string name="Saved_msg">Saved</string>
-    <string name="notify_debtor">Notify debtor</string>
-    <string name="simulate_payment">Simulate payment</string>
+    <string name="notify_debtor">Notify</string>
+    <string name="simulate_payment">Simulate\npayment</string>
     <string name="phone_number">phone number</string>
     <string name="debt_payment_simulation">Debt payment simulation</string>
     <string name="textview">TextView</string>
@@ -41,4 +41,5 @@
     <string name="oweMoneyMsg">Hi, you owe me %s PLN, please give it back or I\'m calling the police 🚓🚨🚨🚨👮</string>
     <string name="smsNumberToParse">sms:%s</string>
     <string name="basicInfo">Name: %1s\nPhone number: %2s"</string>
+    <string name="simDebt">Debt value is %s PLN</string>
 </resources>
