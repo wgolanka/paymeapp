@@ -19,7 +19,6 @@ abstract class DebtorRoomDatabase : RoomDatabase() {
         override fun onOpen(db: SupportSQLiteDatabase) {
             super.onOpen(db)
             INSTANCE?.let { database ->
-                //TODO remove?
                 scope.launch {
 //                    val debtDao = database.debtorDao()
 //                    debtDao.deleteAll()
@@ -42,6 +41,20 @@ abstract class DebtorRoomDatabase : RoomDatabase() {
                 )
                     .addCallback(DebtorDatabaseCallback(scope))
                     .build()
+                INSTANCE = instance
+                instance
+            }
+        }
+
+        fun getInstance(context: Context): DebtorRoomDatabase {
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    DebtorRoomDatabase::class.java,
+                    "debtor_database"
+                )
+                    .build()
+
                 INSTANCE = instance
                 instance
             }
