@@ -9,12 +9,13 @@ import android.net.Uri
 import com.example.paymeapp.dto.Debtor
 
 class DebtorContentProvider(private val contentProvider: ContentProvider) {
-    
+
     private val authority = "com.example.android.DebtorContentProvider.provider"
 
     private val debtorTableName = "debtor_table"
 
     private val codeDebtorDirectory = 1
+
     private val codeDebtorItem = 2
 
     private val uriMatcher = UriMatcher(UriMatcher.NO_MATCH)
@@ -25,23 +26,26 @@ class DebtorContentProvider(private val contentProvider: ContentProvider) {
     }
 
     private fun debtorFromContentValues(values: ContentValues?): Debtor? {
+        val id = "id"
+        val name = "name"
+        val owed = "owed"
+        val phoneNumber = "phoneNumber"
         if (values != null
-            && values.containsKey("id")
-            && values.containsKey("name")
-            && values.containsKey("owed")
-            && values.containsKey("phoneNumber")
+            && values.containsKey(id)
+            && values.containsKey(name)
+            && values.containsKey(owed)
+            && values.containsKey(phoneNumber)
         ) {
             return Debtor(
-                values.getAsString("id"),
-                values.getAsString("name"),
-                values.getAsDouble("owed"),
-                values.getAsString("phoneNumber")
+                values.getAsString(id),
+                values.getAsString(name),
+                values.getAsDouble(owed),
+                values.getAsString(phoneNumber)
             )
         }
 
         return null
     }
-
 
     @Override
     fun query(
@@ -65,7 +69,6 @@ class DebtorContentProvider(private val contentProvider: ContentProvider) {
             throw java.lang.IllegalArgumentException("Unknown URI: $uri")
         }
     }
-
 
     @Override
     suspend fun insert(uri: Uri, values: ContentValues?): Boolean {
